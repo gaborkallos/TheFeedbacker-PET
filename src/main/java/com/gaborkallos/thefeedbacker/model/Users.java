@@ -1,6 +1,7 @@
 package com.gaborkallos.thefeedbacker.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Users {
 
     @Id
@@ -20,6 +22,7 @@ public class Users {
     private String emailAddress;
     private String name;
     private LocalDate dateOfBirth;
+    private boolean canGetPromotion;
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
     private List<Feedback> feedbackList;

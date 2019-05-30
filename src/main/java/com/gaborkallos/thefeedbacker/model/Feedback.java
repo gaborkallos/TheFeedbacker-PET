@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.Mapping;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -25,7 +22,13 @@ public class Feedback {
     @OneToOne
     private Invoice invoice;
 
+    @Column(length = 500)
     private String feedback;
+
+    private int stars;
+
+    @OneToOne
+    private Shop shop;
 
     @ManyToOne
     @JsonIgnore
