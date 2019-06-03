@@ -5,30 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
-public class Shop {
+public class ShopAdmin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-
-    @OneToOne
-    private City city;
-    @OneToOne
-    private Country country;
-
-    @OneToMany
-    private List<ShopAdmin> admins;
-
-    private String postCode;
-    private String address;
-
+    private String username;
+    private String password;
 }
