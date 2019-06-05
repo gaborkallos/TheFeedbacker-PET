@@ -35,6 +35,8 @@ public class SysAdminController {
     public ResponseEntity<SystemAdmin> login(@RequestBody SystemAdmin systemAdmin) {
         logger.info("Try to logging in");
         if (systemAdminService.findSysAdmin(systemAdmin)) {
+            systemAdmin.setSystemAdmin(true);
+            systemAdmin.setPassword(null);
             logger.info("Login successful");
             return new ResponseEntity<>(systemAdmin, HttpStatus.OK);
         }
