@@ -22,5 +22,5 @@ public class SystemAdmin {
     private Long id;
     private String username;
     private String password;
-
+    private boolean isSystemAdmin;
 }

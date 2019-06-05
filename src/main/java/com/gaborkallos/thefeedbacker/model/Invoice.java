@@ -14,7 +14,10 @@ public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String invoiceNumber;
-    private double ammount;
+
+    private double amount;
 
 }

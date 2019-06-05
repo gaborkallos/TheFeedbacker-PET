@@ -20,6 +20,7 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne
     private Invoice invoice;
 
@@ -28,7 +29,7 @@ public class Feedback {
 
     private int stars;
 
-    @OneToOne
+    @ManyToOne
     private Shop shop;
 
     @ManyToOne
