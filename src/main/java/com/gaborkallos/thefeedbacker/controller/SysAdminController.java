@@ -23,14 +23,14 @@ public class SysAdminController {
         this.systemAdminService = systemAdminService;
     }
 
-    @GetMapping("/systemadmin/")
+    @GetMapping("/systemadmin")
     public ResponseEntity<HttpStatus> loginPage() {
         logger.info("GET on 5000");
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
-    @PostMapping("/systemadmin/")
+    @PostMapping("/systemadmin")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Boolean> login(@RequestBody SystemAdmin systemAdmin) {
         logger.info("Try to logging in");
