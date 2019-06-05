@@ -1,6 +1,8 @@
 package com.gaborkallos.thefeedbacker.controller;
 
+import com.gaborkallos.thefeedbacker.model.Feedback;
 import com.gaborkallos.thefeedbacker.model.Shop;
+import com.gaborkallos.thefeedbacker.repository.FeedbackRepository;
 import com.gaborkallos.thefeedbacker.repository.ShopRepository;
 import com.gaborkallos.thefeedbacker.service.ShopService;
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,11 +36,10 @@ public class ShopController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Shop>> getUsers() {
+    public ResponseEntity<List<Feedback>> main() {
         logger.info("GetMapping at '/' ");
-        logger.info("Fetch is SUCCESSFUL.");
-        List<Shop> shops = shopRepository.findAll();
-        return new ResponseEntity<>(shops, HttpStatus.OK);
+        List<Feedback> feedbacks;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

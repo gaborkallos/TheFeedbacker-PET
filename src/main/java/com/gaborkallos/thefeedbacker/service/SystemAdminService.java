@@ -38,16 +38,14 @@ public class SystemAdminService {
                 .password(passwordEncoder.encode("12345"))
                 .build();
         systemAdminRepository.save(admin2);
-        System.out.println(admin1.getPassword());
-        System.out.println(admin2.getPassword());
     }
 
     public boolean findSysAdmin(SystemAdmin systemAdmin) {
         List<SystemAdmin> sysAdmins = findAll();
-        for(SystemAdmin sysAdmin : sysAdmins){
-            if (sysAdmin.getUsername().equals(systemAdmin.getUsername())){
-                if(passwordEncoder.matches(systemAdmin.getPassword(),
-                        sysAdmin.getPassword())){
+        for (SystemAdmin sysAdmin : sysAdmins) {
+            if (sysAdmin.getUsername().equals(systemAdmin.getUsername())) {
+                if (passwordEncoder.matches(systemAdmin.getPassword(),
+                        sysAdmin.getPassword())) {
                     return true;
                 }
                 return false;
@@ -60,10 +58,10 @@ public class SystemAdminService {
         return systemAdminRepository.findAll();
     }
 
-    public SystemAdmin findByUserName(String name){
+    public SystemAdmin findByUserName(String name) {
         List<SystemAdmin> sysAdmins = findAll();
-        for(SystemAdmin sysAdmin : sysAdmins){
-            if(sysAdmin.getUsername().equals(name)){
+        for (SystemAdmin sysAdmin : sysAdmins) {
+            if (sysAdmin.getUsername().equals(name)) {
                 return sysAdmin;
             }
         }
