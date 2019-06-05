@@ -32,14 +32,14 @@ public class SysAdminController {
 
     @PostMapping("/systemadmin")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<Boolean> login(@RequestBody SystemAdmin systemAdmin) {
+    public ResponseEntity<SystemAdmin> login(@RequestBody SystemAdmin systemAdmin) {
         logger.info("Try to logging in");
         if (systemAdminService.findSysAdmin(systemAdmin)) {
             logger.info("Login successful");
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return new ResponseEntity<>(systemAdmin, HttpStatus.OK);
         }
         logger.warn("Login FAILED!");
-        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(systemAdmin, HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/city")
