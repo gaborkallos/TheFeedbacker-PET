@@ -22,5 +22,5 @@ public class ShopAdmin {
     private Long id;
     private String username;
     private String password;
-    private boolean isSysadmin;
+    private String email;
 }

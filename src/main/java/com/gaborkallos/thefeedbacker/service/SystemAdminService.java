@@ -12,8 +12,8 @@ import java.util.List;
 @Service
 public class SystemAdminService {
 
+    private RandomGenerator randomGenerator;
     private PasswordEncoder passwordEncoder;
-
     private SystemAdminRepository systemAdminRepository;
     private ShopAdminRepository shopAdminRepository;
     private ShopRepository shopRepository;
@@ -140,7 +140,9 @@ public class SystemAdminService {
         }
         String encodedPassword = passwordEncoder.encode(newAdmin.getPassword());
         newAdmin.setPassword(encodedPassword);
+        newAdmin.setPassword(randomGenerator.passwordGenerator());
         shopAdminRepository.save(newAdmin);
+        //TODO: send email to customer with the password!!!
         return true;
     }
 
