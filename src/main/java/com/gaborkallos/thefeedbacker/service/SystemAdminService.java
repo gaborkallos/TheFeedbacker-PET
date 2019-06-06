@@ -3,7 +3,6 @@ package com.gaborkallos.thefeedbacker.service;
 import com.gaborkallos.thefeedbacker.model.*;
 import com.gaborkallos.thefeedbacker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,8 @@ import java.util.List;
 public class SystemAdminService {
 
 
-    private RandomGenerator randomGenerator;
-    private EmailService emailService;
+    private RandomGenerator randomGenerator = new RandomGenerator();
+    private EmailService emailService = new EmailService();
     private PasswordEncoder passwordEncoder;
     private SystemAdminRepository systemAdminRepository;
     private ShopAdminRepository shopAdminRepository;
