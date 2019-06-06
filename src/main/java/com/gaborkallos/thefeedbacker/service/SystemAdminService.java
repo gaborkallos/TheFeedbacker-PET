@@ -15,6 +15,7 @@ public class SystemAdminService {
 
 
     private RandomGenerator randomGenerator;
+    private EmailService emailService;
     private PasswordEncoder passwordEncoder;
     private SystemAdminRepository systemAdminRepository;
     private ShopAdminRepository shopAdminRepository;
@@ -145,6 +146,7 @@ public class SystemAdminService {
         newAdmin.setPassword(encodedPassword);
         shopAdminRepository.save(newAdmin);
         //TODO: send email to customer with the password!!!
+        emailService.sendRegistrationMessage(newAdmin, password);
         return true;
     }
 
@@ -153,8 +155,8 @@ public class SystemAdminService {
     }
 
     public boolean addAdminToShop(Shop shop, ShopAdmin admin) {
-        for (Shop currentShop : findAllShops()){
-            if (currentShop.equals(shop)){
+        for (Shop currentShop : findAllShops()) {
+            if (currentShop.equals(shop)) {
                 currentShop.getAdmins().add(admin);
                 shopRepository.save(currentShop);
                 return true;
