@@ -137,8 +137,10 @@ public class SystemAdminService {
     }
 
     public boolean addNewShopAdmin(ShopAdmin newAdmin) {
-        if (findAllAdmin().contains(newAdmin)) {
-            return false;
+        for (ShopAdmin admin : findAllAdmin()) {
+            if (admin.getEmail().equals(newAdmin.getEmail())){
+                return false;
+            }
         }
         String password = (randomGenerator.passwordGenerator());
         String encodedPassword = passwordEncoder.encode(password);
