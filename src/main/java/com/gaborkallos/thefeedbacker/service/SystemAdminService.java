@@ -3,6 +3,7 @@ package com.gaborkallos.thefeedbacker.service;
 import com.gaborkallos.thefeedbacker.model.*;
 import com.gaborkallos.thefeedbacker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 public class SystemAdminService {
+
 
     private RandomGenerator randomGenerator;
     private PasswordEncoder passwordEncoder;
@@ -138,9 +140,9 @@ public class SystemAdminService {
         if (findAllAdmin().contains(newAdmin)) {
             return false;
         }
-        String encodedPassword = passwordEncoder.encode(newAdmin.getPassword());
+        String password = (randomGenerator.passwordGenerator());
+        String encodedPassword = passwordEncoder.encode(password);
         newAdmin.setPassword(encodedPassword);
-        newAdmin.setPassword(randomGenerator.passwordGenerator());
         shopAdminRepository.save(newAdmin);
         //TODO: send email to customer with the password!!!
         return true;
