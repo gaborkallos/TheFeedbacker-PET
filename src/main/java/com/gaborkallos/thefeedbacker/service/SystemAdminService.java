@@ -137,11 +137,14 @@ public class SystemAdminService {
     }
 
     public boolean addNewShopAdmin(ShopAdmin newAdmin) {
-        for (ShopAdmin admin : findAllAdmin()) {
-            if (admin.getEmail().equals(newAdmin.getEmail())){
-                return false;
-            }
+        if (!shopAdminRepository.findShopAdminByEmail().getEmail().equals(newAdmin.getEmail())){
+            return false;
         }
+//        for (ShopAdmin admin : findAllAdmin()) {
+//            if (admin.getEmail().equals(newAdmin.getEmail())){
+//                return false;
+//            }
+//        }
         String password = (randomGenerator.passwordGenerator());
         String encodedPassword = passwordEncoder.encode(password);
         newAdmin.setPassword(encodedPassword);
