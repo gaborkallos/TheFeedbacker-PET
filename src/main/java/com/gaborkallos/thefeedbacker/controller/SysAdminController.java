@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SysAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
@@ -31,7 +32,6 @@ public class SysAdminController {
 
 
     @PostMapping("/systemadmin")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<SystemAdmin> login(@RequestBody SystemAdmin systemAdmin) {
         logger.info("Try to logging in");
         if (systemAdminService.findSysAdmin(systemAdmin)) {
@@ -95,6 +95,7 @@ public class SysAdminController {
     @PostMapping("/shopAdmin")
     public ResponseEntity<ShopAdmin> addNewShopAdmin(@RequestBody ShopAdmin newAdmin) {
         logger.info("Add new admin");
+        logger.info(newAdmin.toString());
         if(systemAdminService.addNewShopAdmin(newAdmin)){
             return new ResponseEntity<>(newAdmin, HttpStatus.OK);
         }
