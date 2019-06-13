@@ -1,7 +1,13 @@
 package com.gaborkallos.thefeedbacker.service;
 
-import com.gaborkallos.thefeedbacker.model.*;
-import com.gaborkallos.thefeedbacker.repository.*;
+import com.gaborkallos.thefeedbacker.model.City;
+import com.gaborkallos.thefeedbacker.model.Country;
+import com.gaborkallos.thefeedbacker.model.Shop;
+import com.gaborkallos.thefeedbacker.model.Admin;
+import com.gaborkallos.thefeedbacker.repository.CityRepository;
+import com.gaborkallos.thefeedbacker.repository.CountryRepository;
+import com.gaborkallos.thefeedbacker.repository.ShopRepository;
+import com.gaborkallos.thefeedbacker.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,22 +16,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SystemAdminService {
+public class AdminService {
 
 
     private RandomGenerator randomGenerator = new RandomGenerator();
     private EmailService emailService = new EmailService();
     private PasswordEncoder passwordEncoder;
-    private SystemAdminRepository systemAdminRepository;
-    private ShopAdminRepository shopAdminRepository;
+    private AdminRepository adminRepository;
     private ShopRepository shopRepository;
     private CityRepository cityRepository;
     private CountryRepository countryRepository;
 
-    @Autowired
-    public void setShopAdminRepository(ShopAdminRepository shopAdminRepository) {
-        this.shopAdminRepository = shopAdminRepository;
-    }
 
     @Autowired
     public void setCityRepository(CityRepository cityRepository) {
@@ -49,48 +50,61 @@ public class SystemAdminService {
     }
 
     @Autowired
-    public void setSystemAdminRepository(SystemAdminRepository systemAdminRepository) {
-        this.systemAdminRepository = systemAdminRepository;
+    public void setAdminRepository(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
     }
 
     public void setAdministrators() {
-        SystemAdmin admin1 = SystemAdmin.builder()
+        Admin admin1 = Admin.builder()
                 .username("Asdmann")
                 .password(passwordEncoder.encode("12345"))
+                .email("kollorosa@gmail.com")
+                .accessRole("systemAdministrator")
                 .isSystemAdmin(true)
                 .build();
-        systemAdminRepository.save(admin1);
-        SystemAdmin admin2 = SystemAdmin.builder()
+        adminRepository.save(admin1);
+        Admin admin2 = Admin.builder()
                 .username("Kraz")
                 .password(passwordEncoder.encode("12345"))
+                .email("gaborkallos@gmail.com")
+                .accessRole("systemAdministrator")
                 .isSystemAdmin(true)
                 .build();
-        systemAdminRepository.save(admin2);
+        adminRepository.save(admin2);
     }
 
-    public boolean findSysAdmin(SystemAdmin systemAdmin) {
-        List<SystemAdmin> sysAdmins = findAll();
-        for (SystemAdmin sysAdmin : sysAdmins) {
-            if (sysAdmin.getUsername().equals(systemAdmin.getUsername())) {
-                if (passwordEncoder.matches(systemAdmin.getPassword(),
+    public boolean findAdmin(Admin admin) {
+        List<Admin> sysAdmins = findAll();
+        for (Admin sysAdmin : sysAdmins) {
+            if (sysAdmin.getUsername().equals(admin.getUsername()) &&
+            admin.isSystemAdmin()) {
+                if (passwordEncoder.matches(admin.getPassword(),
                         sysAdmin.getPassword())) {
                     return true;
                 }
-                return false;
             }
         }
         return false;
     }
 
-    public List<SystemAdmin> findAll() {
-        return systemAdminRepository.findAll();
+    public String findAdminAccesRole(Admin admin){
+        for (Admin currentAdmin : findAll()){
+            if (currentAdmin.getUsername().equals(admin.getUsername())){
+                return currentAdmin.getAccessRole();
+            }
+        }
+        return null;
     }
 
-    public SystemAdmin findByUserName(String name) {
-        List<SystemAdmin> sysAdmins = findAll();
-        for (SystemAdmin sysAdmin : sysAdmins) {
-            if (sysAdmin.getUsername().equals(name)) {
-                return sysAdmin;
+    public List<Admin> findAll() {
+        return adminRepository.findAll();
+    }
+
+    public Admin findByUserName(String name) {
+        List<Admin> admins = findAll();
+        for (Admin admin : admins) {
+            if (admin.getUsername().equals(name)) {
+                return admin;
             }
         }
         return null;
@@ -136,26 +150,38 @@ public class SystemAdminService {
         return true;
     }
 
-    public boolean addNewShopAdmin(ShopAdmin newAdmin) {
-        for (ShopAdmin admin : findAllAdmin()) {
-            if (admin.getEmail().equals(newAdmin.getEmail())){
-                return false;
-            }
+    public boolean addNewShopAdmin(Admin newAdmin) {
+        if (isAdminExist(newAdmin)){
+            return false;
+        }
+
+        if (newAdmin.isSystemAdmin()) {
+            newAdmin.setAccessRole("systemAdministrator");
+        } else {
+            newAdmin.setAccessRole("shopAdministrator");
         }
         String password = (randomGenerator.passwordGenerator());
         String encodedPassword = passwordEncoder.encode(password);
         newAdmin.setPassword(encodedPassword);
-        shopAdminRepository.save(newAdmin);
-        //TODO: send email to customer with the password!!!
+        adminRepository.save(newAdmin);
         emailService.sendRegistrationMessage(newAdmin, password);
         return true;
     }
 
-    public List<ShopAdmin> findAllAdmin() {
-        return shopAdminRepository.findAll();
+    private boolean isAdminExist(Admin newAdmin) {
+        for (Admin admin : findAllAdmin()) {
+            if (admin.getEmail().equals(newAdmin.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean addAdminToShop(Shop shop, ShopAdmin admin) {
+    public List<Admin> findAllAdmin() {
+        return adminRepository.findAll();
+    }
+
+    public boolean addAdminToShop(Shop shop, Admin admin) {
         for (Shop currentShop : findAllShops()) {
             if (currentShop.equals(shop)) {
                 currentShop.getAdmins().add(admin);

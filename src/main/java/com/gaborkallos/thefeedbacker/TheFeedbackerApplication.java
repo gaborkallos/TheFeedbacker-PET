@@ -1,6 +1,6 @@
 package com.gaborkallos.thefeedbacker;
 
-import com.gaborkallos.thefeedbacker.service.SystemAdminService;
+import com.gaborkallos.thefeedbacker.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,12 +15,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class TheFeedbackerApplication {
 
-    private SystemAdminService systemAdminService;
+    private AdminService adminService;
 
     @Autowired
-    public void setSystemAdminService(SystemAdminService systemAdminService) {
-        this.systemAdminService = systemAdminService;
-        systemAdminService.setAdministrators();
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+        adminService.setAdministrators();
     }
 
     public static void main(String[] args) {

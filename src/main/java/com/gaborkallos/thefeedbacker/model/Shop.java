@@ -26,7 +26,7 @@ public class Shop {
     private Country country;
 
     @OneToMany
-    private List<ShopAdmin> admins;
+    private List<Admin> admins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private List<Feedback> feedbacks;
@@ -34,7 +34,7 @@ public class Shop {
     private String postCode;
     private String address;
 
-    public void addNewShopAdmin(ShopAdmin admin){
+    public void addNewShopAdmin(Admin admin){
         admins.add(admin);
     }
 }
