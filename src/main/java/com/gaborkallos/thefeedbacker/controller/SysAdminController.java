@@ -29,7 +29,7 @@ public class SysAdminController {
         return new ResponseEntity(allAdmin, HttpStatus.OK);
     }
 
-    @PostMapping("/systemadmin")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Admin admin) {
         logger.info("Try to logging in");
         if (adminService.findAdmin(admin)) {
@@ -39,6 +39,15 @@ public class SysAdminController {
         }
         logger.warn("Login FAILED!");
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/systemadmin")
+    public ResponseEntity<String> addAdmin(@RequestBody Admin admin) {
+        logger.info("Try to register");
+        if(adminService.addNewShopAdmin(admin)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @GetMapping("/city")

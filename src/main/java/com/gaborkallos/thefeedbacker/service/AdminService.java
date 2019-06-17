@@ -168,7 +168,7 @@ public class AdminService {
         return true;
     }
 
-    private boolean isAdminExist(Admin newAdmin) {
+    public boolean isAdminExist(Admin newAdmin) {
         for (Admin admin : findAllAdmin()) {
             if (admin.getEmail().equals(newAdmin.getEmail())) {
                 return true;
@@ -191,4 +191,5 @@ public class AdminService {
         }
         return false;
     }
+
 }
