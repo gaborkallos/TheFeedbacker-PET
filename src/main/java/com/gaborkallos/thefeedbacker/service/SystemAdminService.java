@@ -146,7 +146,6 @@ public class SystemAdminService {
         String encodedPassword = passwordEncoder.encode(password);
         newAdmin.setPassword(encodedPassword);
         shopAdminRepository.save(newAdmin);
-        //TODO: send email to customer with the password!!!
         emailService.sendRegistrationMessage(newAdmin, password);
         return true;
     }
