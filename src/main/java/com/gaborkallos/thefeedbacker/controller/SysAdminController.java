@@ -1,6 +1,9 @@
 package com.gaborkallos.thefeedbacker.controller;
 
-import com.gaborkallos.thefeedbacker.model.*;
+import com.gaborkallos.thefeedbacker.model.Admin;
+import com.gaborkallos.thefeedbacker.model.City;
+import com.gaborkallos.thefeedbacker.model.Country;
+import com.gaborkallos.thefeedbacker.model.Shop;
 import com.gaborkallos.thefeedbacker.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +33,18 @@ public class SysAdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Admin admin) {
+    public ResponseEntity<Admin> login(@RequestBody Admin admin) {
         logger.info("Try to logging in");
         if (adminService.findAdmin(admin)) {
             logger.info("Login successful");
             String accesRole = adminService.findAdminAccesRole(admin);
-            return new ResponseEntity<>(admin.getAccessRole(), HttpStatus.OK);
+            admin.setAccessRole(accesRole);
+            if(admin.getAccessRole().equals("systemAdministrator")){
+                admin.setSystemAdmin(true);
+            }else{
+                admin.setSystemAdmin(false);
+            }
+            return new ResponseEntity<>(admin, HttpStatus.OK);
         }
         logger.warn("Login FAILED!");
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -45,7 +54,7 @@ public class SysAdminController {
     public ResponseEntity<String> addAdmin(@RequestBody Admin admin) {
         logger.info("Try to register");
         if(adminService.addNewShopAdmin(admin)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(admin.getEmail(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
