@@ -1,9 +1,6 @@
 package com.gaborkallos.thefeedbacker.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,12 +12,14 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SystemAdmin {
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
-    private boolean isSystemAdmin;
+    private String email;
+    private String accessRole;
+    private boolean systemAdmin;
 }
