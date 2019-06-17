@@ -1,12 +1,13 @@
 package com.gaborkallos.thefeedbacker.service;
 
+import com.gaborkallos.thefeedbacker.model.Admin;
 import com.gaborkallos.thefeedbacker.model.Feedback;
 import com.gaborkallos.thefeedbacker.model.Shop;
+import com.gaborkallos.thefeedbacker.model.Users;
 import com.gaborkallos.thefeedbacker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +17,6 @@ public class ShopService {
     private ShopRepository shopRepository;
     private CityRepository cityRepository;
     private CountryRepository countryRepository;
-    private ShopAdminRepository shopAdminRepository;
     private FeedbackRepository feedbackRepository;
 
     @Autowired
@@ -24,10 +24,6 @@ public class ShopService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    @Autowired
-    public void setShopAdminRepository(ShopAdminRepository shopAdminRepository) {
-        this.shopAdminRepository = shopAdminRepository;
-    }
 
     @Autowired
     public void setCountryRepository(CountryRepository countryRepository) {
@@ -49,15 +45,43 @@ public class ShopService {
         this.usersRepository = usersRepository;
     }
 
-    public List<Feedback> myFeedbacks (Shop myShop){
+
+    public List<Feedback> myFeedbacks(Shop myShop, Admin admin) {
 //        List<Feedback> allFeedbacks = feedbackRepository.findAll();
 //        for(Feedback feedback : allFeedbacks){
 //            if (feedback.getShop().equals(myShop)){
 //                feedbacks.add(feedback);
 //            }
 //        }
-        List<Feedback> feedbacks = feedbackRepository.findFeedbackByShop(myShop);
-        return feedbacks;
+        if(admin.getAccessRole().equals("shopAdministrator") ||
+                admin.getAccessRole().equals("systemAdministrator")){
+            List<Feedback> feedbacks = feedbackRepository.findFeedbackByShop(myShop);
+            return feedbacks;
+        }
+        return null;
+    }
+
+    public boolean isMyShop(Admin admin, Shop myShop){
+        for(Shop currentShop : shopRepository.findAll()){
+            if (currentShop.getName().equals(myShop.getName())){
+                List<Admin> myAdminsmyShop = currentShop.getAdmins();
+                for (Admin currrentAdmin : myAdminsmyShop){
+                    if(currrentAdmin.getUsername().equals(admin.getUsername())){
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    public void leaveFeedback(Feedback feedback) {
+        feedbackRepository.save(feedback);
+    }
+
+    public void saveUser(Users user) {
+        usersRepository.save(user);
     }
 }
 
