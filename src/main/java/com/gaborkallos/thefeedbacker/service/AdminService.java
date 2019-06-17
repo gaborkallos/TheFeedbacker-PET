@@ -121,6 +121,8 @@ public class AdminService {
     }
 
     public boolean addNewCity(City newCity) {
+        String name = newCity.getName();
+        newCity.setName(name.toUpperCase());
         if (findAllCities().contains(newCity)) {
             return false;
         }
@@ -133,6 +135,8 @@ public class AdminService {
     }
 
     public boolean addNewCountry(Country newCountry) {
+        String name = newCountry.getName();
+        newCountry.setName(name.toUpperCase());
         if (findAllCountries().contains(newCountry)) {
             return false;
         }

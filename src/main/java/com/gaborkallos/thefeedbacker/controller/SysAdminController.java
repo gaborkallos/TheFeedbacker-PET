@@ -48,14 +48,14 @@ public class SysAdminController {
             return new ResponseEntity<>(admin, HttpStatus.OK);
         }
         logger.warn("Login FAILED!");
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/systemadmin")
-    public ResponseEntity<String> addAdmin(@RequestBody Admin admin) {
+    public ResponseEntity<HttpStatus> addAdmin(@RequestBody Admin admin) {
         logger.info("Try to register");
         if(adminService.addNewShopAdmin(admin)){
-            return new ResponseEntity<>(admin.getEmail(), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
