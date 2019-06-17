@@ -60,7 +60,7 @@ public class AdminService {
                 .password(passwordEncoder.encode("12345"))
                 .email("kollorosa@gmail.com")
                 .accessRole("systemAdministrator")
-                .isSystemAdmin(true)
+                .systemAdmin(true)
                 .build();
         adminRepository.save(admin1);
         Admin admin2 = Admin.builder()
@@ -68,7 +68,7 @@ public class AdminService {
                 .password(passwordEncoder.encode("12345"))
                 .email("gaborkallos@gmail.com")
                 .accessRole("systemAdministrator")
-                .isSystemAdmin(true)
+                .systemAdmin(true)
                 .build();
         adminRepository.save(admin2);
     }

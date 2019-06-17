@@ -40,9 +40,9 @@ public class SysAdminController {
             String accesRole = adminService.findAdminAccesRole(admin);
             admin.setAccessRole(accesRole);
             if(admin.getAccessRole().equals("systemAdministrator")){
-                admin.setIsSystemAdmin(true);
+                admin.setSystemAdmin(true);
             }else{
-                admin.setIsSystemAdmin(false);
+                admin.setSystemAdmin(false);
             }
             return new ResponseEntity<>(admin, HttpStatus.OK);
         }

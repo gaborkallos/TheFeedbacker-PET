@@ -24,9 +24,5 @@ public class Admin {
     private String password;
     private String email;
     private String accessRole;
-    private boolean isSystemAdmin;
-
-    public void setIsSystemAdmin(boolean input){
-        this.isSystemAdmin = input;
-    }
+    private boolean systemAdmin;
 }
