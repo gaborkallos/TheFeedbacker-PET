@@ -76,8 +76,7 @@ public class AdminService {
     public boolean findAdmin(Admin admin) {
         List<Admin> sysAdmins = findAll();
         for (Admin sysAdmin : sysAdmins) {
-            if (sysAdmin.getUsername().equals(admin.getUsername()) &&
-            admin.isSystemAdmin()) {
+            if (sysAdmin.getUsername().equals(admin.getUsername())) {
                 if (passwordEncoder.matches(admin.getPassword(),
                         sysAdmin.getPassword())) {
                     return true;
@@ -87,9 +86,9 @@ public class AdminService {
         return false;
     }
 
-    public String findAdminAccesRole(Admin admin){
-        for (Admin currentAdmin : findAll()){
-            if (currentAdmin.getUsername().equals(admin.getUsername())){
+    public String findAdminAccesRole(Admin admin) {
+        for (Admin currentAdmin : findAll()) {
+            if (currentAdmin.getUsername().equals(admin.getUsername())) {
                 return currentAdmin.getAccessRole();
             }
         }
@@ -151,7 +150,7 @@ public class AdminService {
     }
 
     public boolean addNewShopAdmin(Admin newAdmin) {
-        if (isAdminExist(newAdmin)){
+        if (isAdminExist(newAdmin)) {
             return false;
         }
 
