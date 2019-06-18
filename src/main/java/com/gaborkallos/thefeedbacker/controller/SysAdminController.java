@@ -40,9 +40,9 @@ public class SysAdminController {
             logger.info("Login successful");
             String accesRole = adminService.findAdminAccesRole(admin);
             admin.setAccessRole(accesRole);
-            if(admin.getAccessRole().equals("systemAdministrator")){
+            if (admin.getAccessRole().equals("systemAdministrator")) {
                 admin.setSystemAdmin(true);
-            }else{
+            } else {
                 admin.setSystemAdmin(false);
             }
             return new ResponseEntity<>(admin, HttpStatus.OK);
@@ -54,7 +54,7 @@ public class SysAdminController {
     @PostMapping("/systemadmin")
     public ResponseEntity<HttpStatus> addAdmin(@RequestBody Admin admin) {
         logger.info("Try to register");
-        if(adminService.addNewShopAdmin(admin)){
+        if (adminService.addNewShopAdmin(admin)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -92,10 +92,19 @@ public class SysAdminController {
     }
 
     @PostMapping("/shops")
-    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, Admin admin) {
+    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry, Admin admin) {
         if (adminService.findAdminAccesRole(admin).equals("systemAdministrator")) {
             logger.info("Add new shop");
-            adminService.addNewShop(newShop);
+            if (adminService.addNewCity(newCity)) {
+                logger.info(newCity.getName() + "is added to database!");
+            }
+            if (adminService.addNewCountry(newCountry)) {
+                logger.info(newCountry.getName() + "is added to database!");
+            }
+            if (adminService.addNewShop(newShop, newCity, newCountry)) {
+                logger.info(newShop.getName() + "is added to database!");
+            }
+            ;
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);

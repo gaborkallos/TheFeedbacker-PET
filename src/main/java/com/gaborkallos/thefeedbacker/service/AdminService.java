@@ -148,12 +148,32 @@ public class AdminService {
         return shopRepository.findAll();
     }
 
-    public boolean addNewShop(Shop newShop) {
+    public boolean addNewShop(Shop newShop, City newCity, Country newCountry) {
         if (findAllShops().contains(newShop)) {
             return false;
         }
+        newShop.setCity(findCityByName(newCity));
+        newShop.setCountry(findCountryByName(newCountry));
         shopRepository.save(newShop);
         return true;
+    }
+
+    private Country findCountryByName(Country newCountry) {
+        for (Country country: countryRepository.findAll()) {
+            if(country.getName().toUpperCase().equals(newCountry.getName().toUpperCase())){
+                return country;
+            }
+        }
+        return null;
+    }
+
+    private City findCityByName(City newCity) {
+        for (City city: cityRepository.findAll()) {
+            if(city.getName().toUpperCase().equals(newCity.getName().toUpperCase())){
+                return city;
+            }
+        }
+        return null;
     }
 
     public boolean addNewShopAdmin(Admin newAdmin) {
