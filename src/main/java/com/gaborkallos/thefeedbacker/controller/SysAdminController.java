@@ -22,9 +22,9 @@ public class SysAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
-    AdminService adminService;
-    CityService cityService;
-    CountryService countryService;
+    private AdminService adminService;
+    private CityService cityService;
+    private CountryService countryService;
 
     @Autowired
     public void setCountryService(CountryService countryService) {
