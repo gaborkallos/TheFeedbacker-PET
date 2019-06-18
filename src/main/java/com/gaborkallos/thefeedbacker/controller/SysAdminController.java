@@ -64,32 +64,32 @@ public class SysAdminController {
     public ResponseEntity<List<City>> getCities() {
         return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.OK);
     }
-
-    @PostMapping("/city")
-    public ResponseEntity<List<City>> addCity(@RequestBody City newCity) {
-        logger.info("Add new city");
-        if (adminService.addNewCity(newCity)) {
-            return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.OK);
-        }
-        logger.info(newCity + "is already exist!");
-        return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.BAD_REQUEST);
-    }
+//
+//    @PostMapping("/city")
+//    public ResponseEntity<List<City>> addCity(@RequestBody City newCity) {
+//        logger.info("Add new city");
+//        if (adminService.addNewCity(newCity)) {
+//            return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.OK);
+//        }
+//        logger.info(newCity + "is already exist!");
+//        return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.BAD_REQUEST);
+//    }
 
     @GetMapping("/country")
     public ResponseEntity<List<Country>> getCountries() {
         return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.OK);
     }
 
-    @PostMapping("/country")
-    public ResponseEntity<List<Country>> addCountry(@RequestBody Country newCountry) {
-        logger.info("Add new country");
-        if (adminService.addNewCountry(newCountry)) {
-            return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.OK);
-        }
-        logger.info(newCountry + " is already exist!");
-        return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.BAD_REQUEST);
-
-    }
+//    @PostMapping("/country")
+//    public ResponseEntity<List<Country>> addCountry(@RequestBody Country newCountry) {
+//        logger.info("Add new country");
+//        if (adminService.addNewCountry(newCountry)) {
+//            return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.OK);
+//        }
+//        logger.info(newCountry + " is already exist!");
+//        return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.BAD_REQUEST);
+//
+//    }
 
     @PostMapping("/shops")
     public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry, Admin admin) {
