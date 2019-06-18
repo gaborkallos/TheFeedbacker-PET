@@ -43,8 +43,7 @@ public class SysAdminController {
 
     @GetMapping("/systemadmin")
     public ResponseEntity<HttpStatus> loginPage() {
-        List<Admin> allAdmin = adminService.findAllAdmin();
-        return new ResponseEntity(allAdmin, HttpStatus.OK);
+        return new ResponseEntity(adminService.findAllAdmin(), HttpStatus.OK);
     }
 
     @PostMapping("/login")
