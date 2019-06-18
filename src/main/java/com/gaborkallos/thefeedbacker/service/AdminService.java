@@ -26,18 +26,17 @@ public class AdminService {
     private PasswordEncoder passwordEncoder;
     private AdminRepository adminRepository;
     private ShopRepository shopRepository;
-    private CityRepository cityRepository;
-    private CountryRepository countryRepository;
-
+    private CityService cityService;
+    private CountryService countryService;
 
     @Autowired
-    public void setCityRepository(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
     }
 
     @Autowired
-    public void setCountryRepository(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
+    public void setCityService(CityService cityService) {
+        this.cityService = cityService;
     }
 
     @Autowired
@@ -116,34 +115,6 @@ public class AdminService {
         return passwordEncoder.encode(plainPassword);
     }
 
-    public List<City> findAllCities() {
-        return cityRepository.findAll();
-    }
-
-    public boolean addNewCity(City newCity) {
-        String name = newCity.getName();
-        newCity.setName(name.toUpperCase());
-        if (findAllCities().contains(newCity)) {
-            return false;
-        }
-        cityRepository.save(newCity);
-        return true;
-    }
-
-    public List<Country> findAllCountries() {
-        return countryRepository.findAll();
-    }
-
-    public boolean addNewCountry(Country newCountry) {
-        String name = newCountry.getName();
-        newCountry.setName(name.toUpperCase());
-        if (findAllCountries().contains(newCountry)) {
-            return false;
-        }
-        countryRepository.save(newCountry);
-        return true;
-    }
-
     public List<Shop> findAllShops() {
         return shopRepository.findAll();
     }
@@ -152,28 +123,10 @@ public class AdminService {
         if (findAllShops().contains(newShop)) {
             return false;
         }
-        newShop.setCity(findCityByName(newCity));
-        newShop.setCountry(findCountryByName(newCountry));
+        newShop.setCity(cityService.findCityByName(newCity));
+        newShop.setCountry(countryService.findCountryByName(newCountry));
         shopRepository.save(newShop);
         return true;
-    }
-
-    private Country findCountryByName(Country newCountry) {
-        for (Country country: countryRepository.findAll()) {
-            if(country.getName().toUpperCase().equals(newCountry.getName().toUpperCase())){
-                return country;
-            }
-        }
-        return null;
-    }
-
-    private City findCityByName(City newCity) {
-        for (City city: cityRepository.findAll()) {
-            if(city.getName().toUpperCase().equals(newCity.getName().toUpperCase())){
-                return city;
-            }
-        }
-        return null;
     }
 
     public boolean addNewShopAdmin(Admin newAdmin) {

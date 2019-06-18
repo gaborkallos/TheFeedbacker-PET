@@ -5,6 +5,8 @@ import com.gaborkallos.thefeedbacker.model.City;
 import com.gaborkallos.thefeedbacker.model.Country;
 import com.gaborkallos.thefeedbacker.model.Shop;
 import com.gaborkallos.thefeedbacker.service.AdminService;
+import com.gaborkallos.thefeedbacker.service.CityService;
+import com.gaborkallos.thefeedbacker.service.CountryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,18 @@ public class SysAdminController {
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
     AdminService adminService;
+    CityService cityService;
+    CountryService countryService;
+
+    @Autowired
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
+    @Autowired
+    public void setCityService(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     @Autowired
     public void setAdminService(AdminService adminService) {
@@ -62,7 +76,7 @@ public class SysAdminController {
 
     @GetMapping("/city")
     public ResponseEntity<List<City>> getCities() {
-        return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.OK);
+        return new ResponseEntity<>(cityService.findAllCities(), HttpStatus.OK);
     }
 //
 //    @PostMapping("/city")
@@ -77,7 +91,7 @@ public class SysAdminController {
 
     @GetMapping("/country")
     public ResponseEntity<List<Country>> getCountries() {
-        return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.OK);
+        return new ResponseEntity<>(countryService.findAllCountries(), HttpStatus.OK);
     }
 
 //    @PostMapping("/country")
@@ -95,10 +109,10 @@ public class SysAdminController {
     public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry, Admin admin) {
         if (adminService.findAdminAccesRole(admin).equals("systemAdministrator")) {
             logger.info("Add new shop");
-            if (adminService.addNewCity(newCity)) {
+            if (cityService.addNewCity(newCity)) {
                 logger.info(newCity.getName() + "is added to database!");
             }
-            if (adminService.addNewCountry(newCountry)) {
+            if (countryService.addNewCountry(newCountry)) {
                 logger.info(newCountry.getName() + "is added to database!");
             }
             if (adminService.addNewShop(newShop, newCity, newCountry)) {
