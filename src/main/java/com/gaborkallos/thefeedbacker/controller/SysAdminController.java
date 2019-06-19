@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -104,23 +105,23 @@ public class SysAdminController {
 //
 //    }
 
+    //TODO: https://codecool.gitlab.io/codecool-curriculum/bud-advanced-java-new/#/../pages/java/spring/spring-security-tutorial !!!
+
     @PostMapping("/shops")
-    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry, Admin admin) {
-        if (adminService.findAdminAccesRole(admin).equals("systemAdministrator")) {
-            logger.info("Add new shop");
-            if (cityService.addNewCity(newCity)) {
-                logger.info(newCity.getName() + "is added to database!");
-            }
-            if (countryService.addNewCountry(newCountry)) {
-                logger.info(newCountry.getName() + "is added to database!");
-            }
-            if (adminService.addNewShop(newShop, newCity, newCountry)) {
-                logger.info(newShop.getName() + "is added to database!");
-            }
-            ;
-            return new ResponseEntity<>(true, HttpStatus.OK);
+    //TODO:    @Secured({"ROLE_systemAdministrator"})
+    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry) {
+        logger.info("Add new shop");
+        if (cityService.addNewCity(newCity)) {
+            logger.info(newCity.getName() + "is added to database!");
         }
-        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        if (countryService.addNewCountry(newCountry)) {
+            logger.info(newCountry.getName() + "is added to database!");
+        }
+        if (adminService.addNewShop(newShop, newCity, newCountry)) {
+            logger.info(newShop.getName() + "is added to database!");
+        }
+        ;
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PutMapping("/shops")
