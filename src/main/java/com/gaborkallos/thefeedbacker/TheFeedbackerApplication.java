@@ -2,9 +2,9 @@ package com.gaborkallos.thefeedbacker;
 
 import com.gaborkallos.thefeedbacker.model.City;
 import com.gaborkallos.thefeedbacker.model.Country;
-import com.gaborkallos.thefeedbacker.repository.CityRepository;
-import com.gaborkallos.thefeedbacker.repository.CountryRepository;
 import com.gaborkallos.thefeedbacker.service.AdminService;
+import com.gaborkallos.thefeedbacker.service.CityService;
+import com.gaborkallos.thefeedbacker.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +16,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
-
 @SpringBootApplication
 @EnableSwagger2
 public class TheFeedbackerApplication {
@@ -25,9 +23,9 @@ public class TheFeedbackerApplication {
     private AdminService adminService;
 
     @Autowired
-    private CityRepository cityRepository;
+    private CityService cityService;
     @Autowired
-    private CountryRepository countryRepository;
+    private CountryService countryService;
 
     @Autowired
     public void setAdminService(AdminService adminService) {
@@ -52,16 +50,18 @@ public class TheFeedbackerApplication {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-            City city1 = new City(1L, "Budapest");
-            City city2 = new City(2L, "London");
-            City city3 = new City(3L, "New York");
 
             Country country1 = new Country(1L, "Hungary");
             Country country2 = new Country(2L, "United Kingdom");
             Country country3 = new Country(3L, "United States");
 
-            cityRepository.saveAll(Arrays.asList(city1, city2, city3));
-            countryRepository.saveAll(Arrays.asList(country1, country2, country3));
+            cityService.addNewCity(new City(1L, "Budapest"));
+            cityService.addNewCity(new City(2L, "London"));
+            cityService.addNewCity(new City(3L, "New York"));
+
+            countryService.addNewCountry(country1);
+            countryService.addNewCountry(country2);
+            countryService.addNewCountry(country3);
         };
     }
 

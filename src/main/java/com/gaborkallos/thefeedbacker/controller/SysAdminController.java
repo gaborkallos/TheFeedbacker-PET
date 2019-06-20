@@ -84,15 +84,14 @@ public class SysAdminController {
     public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop) {
         logger.info("Add new shop");
         if (cityService.addNewCity(newShop.getCity())) {
-            logger.info(newShop.getCity().getName() + "is added to database!");
+            logger.info(newShop.getCity().getName() + " is added to database!");
         }
         if (countryService.addNewCountry(newShop.getCountry())) {
-            logger.info(newShop.getCountry().getName() + "is added to database!");
+            logger.info(newShop.getCountry().getName() + " is added to database!");
         }
         if (adminService.addNewShop(newShop, newShop.getCity(), newShop.getCountry())) {
-            logger.info(newShop.getName() + "is added to database!");
+            logger.info(newShop.getName() + " is added to database!");
         }
-        ;
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
