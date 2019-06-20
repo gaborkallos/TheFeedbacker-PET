@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class SysAdminController {
             return new ResponseEntity<>(admin, HttpStatus.OK);
         }
         logger.warn("Login FAILED!");
-        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>((Admin) null, HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/systemadmin")
@@ -105,7 +104,8 @@ public class SysAdminController {
 //
 //    }
 
-    //TODO: https://codecool.gitlab.io/codecool-curriculum/bud-advanced-java-new/#/../pages/java/spring/spring-security-tutorial !!!
+    //TODO: https://codecool.gitlab.io/codecool-curriculum/bud-advanced-java-new/#/.
+    // ./pages/java/spring/spring-security-tutorial !!!
 
     @PostMapping("/shops")
     //TODO:    @Secured({"ROLE_systemAdministrator"})
