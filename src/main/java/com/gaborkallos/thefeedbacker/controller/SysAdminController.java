@@ -109,15 +109,15 @@ public class SysAdminController {
 
     @PostMapping("/shops")
     //TODO:    @Secured({"ROLE_systemAdministrator"})
-    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop, City newCity, Country newCountry) {
+    public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop) {
         logger.info("Add new shop");
-        if (cityService.addNewCity(newCity)) {
-            logger.info(newCity.getName() + "is added to database!");
+        if (cityService.addNewCity(newShop.getCity())) {
+            logger.info(newShop.getCity().getName() + "is added to database!");
         }
-        if (countryService.addNewCountry(newCountry)) {
-            logger.info(newCountry.getName() + "is added to database!");
+        if (countryService.addNewCountry(newShop.getCountry())) {
+            logger.info(newShop.getCountry().getName() + "is added to database!");
         }
-        if (adminService.addNewShop(newShop, newCity, newCountry)) {
+        if (adminService.addNewShop(newShop, newShop.getCity(), newShop.getCountry())) {
             logger.info(newShop.getName() + "is added to database!");
         }
         ;
