@@ -76,6 +76,9 @@ public class ShopService {
         return false;
     }
 
+    public List<Shop> findAllShop(){
+        return shopRepository.findAll();
+    }
     public void leaveFeedback(Feedback feedback) {
         feedbackRepository.save(feedback);
     }

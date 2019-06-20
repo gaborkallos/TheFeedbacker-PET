@@ -7,6 +7,7 @@ import com.gaborkallos.thefeedbacker.model.Shop;
 import com.gaborkallos.thefeedbacker.service.AdminService;
 import com.gaborkallos.thefeedbacker.service.CityService;
 import com.gaborkallos.thefeedbacker.service.CountryService;
+import com.gaborkallos.thefeedbacker.service.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +23,15 @@ public class SysAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
+    @Autowired
     private AdminService adminService;
+    @Autowired
     private CityService cityService;
+    @Autowired
     private CountryService countryService;
-
     @Autowired
-    public void setCountryService(CountryService countryService) {
-        this.countryService = countryService;
-    }
+    private ShopService shopService;
 
-    @Autowired
-    public void setCityService(CityService cityService) {
-        this.cityService = cityService;
-    }
-
-    @Autowired
-    public void setAdminService(AdminService adminService) {
-        this.adminService = adminService;
-    }
 
     @GetMapping("/systemadmin")
     public ResponseEntity<HttpStatus> loginPage() {
@@ -77,32 +69,12 @@ public class SysAdminController {
     public ResponseEntity<List<City>> getCities() {
         return new ResponseEntity<>(cityService.findAllCities(), HttpStatus.OK);
     }
-//
-//    @PostMapping("/city")
-//    public ResponseEntity<List<City>> addCity(@RequestBody City newCity) {
-//        logger.info("Add new city");
-//        if (adminService.addNewCity(newCity)) {
-//            return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.OK);
-//        }
-//        logger.info(newCity + "is already exist!");
-//        return new ResponseEntity<>(adminService.findAllCities(), HttpStatus.BAD_REQUEST);
-//    }
 
     @GetMapping("/country")
     public ResponseEntity<List<Country>> getCountries() {
         return new ResponseEntity<>(countryService.findAllCountries(), HttpStatus.OK);
     }
 
-//    @PostMapping("/country")
-//    public ResponseEntity<List<Country>> addCountry(@RequestBody Country newCountry) {
-//        logger.info("Add new country");
-//        if (adminService.addNewCountry(newCountry)) {
-//            return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.OK);
-//        }
-//        logger.info(newCountry + " is already exist!");
-//        return new ResponseEntity<>(adminService.findAllCountries(), HttpStatus.BAD_REQUEST);
-//
-//    }
 
     //TODO: https://codecool.gitlab.io/codecool-curriculum/bud-advanced-java-new/#/.
     // ./pages/java/spring/spring-security-tutorial !!!
@@ -122,6 +94,14 @@ public class SysAdminController {
         }
         ;
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping("/shops")
+    public ResponseEntity<List<Shop>> getAllShops(@RequestBody Admin admin) {
+        if (admin.isSystemAdmin()) {
+            return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/shops")
