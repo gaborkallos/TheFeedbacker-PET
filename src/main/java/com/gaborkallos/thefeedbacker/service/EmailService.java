@@ -27,11 +27,13 @@ public class EmailService {
 
             message.setSubject("Password for the Project X");
 
-            message.setText("Dear " + admin.getUsername() + "! \n" +
+            message.setText("Dear " + admin.getUsername() + "! \n \n" +
                     "Welcome in our project X website. \n" +
-                    "Here is your password to login: " + password +
-                    "\n \n Regards, \n" +
-                    "System Administrator");
+                    "Your username is: " + admin.getUsername() + "\n"+
+                    "and your password: " + password + "\n" +
+                    "to login. \n \n" +
+                    "Regards, \n" +
+                    "System Administrators");
 
             javaMailSender.send(message);
 
