@@ -100,7 +100,7 @@ public class SysAdminController {
         if (admin.isSystemAdmin()) {
             return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/shops")
