@@ -107,10 +107,10 @@ public class SysAdminController {
     }
 
     @PutMapping("/shops")
-    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop, Admin admin) {
+    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop) {
         logger.info("Try to add new Admin to the Shop");
-        if (adminService.addAdminToShop(shop, admin)) {
-            logger.info("Success! New shop is added");
+        if (adminService.addAdminToShop(shop)) {
+            logger.info("Success! Admin: " + shop.getAdmins().toString() + " added to shop "+shop.getName() + "!");
             return new ResponseEntity<>(HttpStatus.OK);
         }
         logger.error("Access denied!");
