@@ -25,7 +25,7 @@ public class Shop {
     @OneToOne
     private Country country;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
     private List<Admin> admins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
