@@ -160,12 +160,16 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public boolean addAdminToShop(Shop shop) {
+    public boolean addAdminToShop(Shop shop, Admin admin) {
         for (Shop currentShop : findAllShops()) {
             if (currentShop.getName().equals(shop.getName())) {
-                currentShop.setAdmins(shop.getAdmins());
-                shopRepository.save(currentShop);
-                return true;
+                for (Admin currentAdmin : findAllAdmin()) {
+                    if (currentAdmin.getUsername().equals(admin.getUsername())) {
+                        currentShop.addNewShopAdmin(currentAdmin);
+                        shopRepository.save(currentShop);
+                        return true;
+                    }
+                }
             }
         }
         return false;
