@@ -104,9 +104,9 @@ public class SysAdminController {
     }
 
     @PutMapping("/shops")
-    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop) {
+    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop, Admin admin) {
         logger.info("Try to add new Admin to the Shop");
-        if (adminService.addAdminToShop(shop)) {
+        if (adminService.addAdminToShop(shop, admin)) {
             logger.info("Success! Admin: " + shop.getAdmins().toString() + " added to shop "+shop.getName() + "!");
             return new ResponseEntity<>(HttpStatus.OK);
         }
