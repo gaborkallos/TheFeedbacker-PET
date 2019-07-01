@@ -100,6 +100,9 @@ public class SysAdminController {
         if (admin.isSystemAdmin()) {
             return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
         }
+        else if (!admin.isSystemAdmin()) {
+            return new ResponseEntity<>(shopService.findShopByAdmin(admin), HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
