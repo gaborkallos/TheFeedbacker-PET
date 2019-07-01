@@ -96,11 +96,11 @@ public class SysAdminController {
     }
 
     @GetMapping("/shops")
-    public ResponseEntity<List<Shop>> getAllShops(@RequestBody Admin admin) {
-        if (admin.isSystemAdmin()) {
+    public ResponseEntity<List<Shop>> getAllShops() {
+//        if (admin.isSystemAdmin()) {
             return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/shops")
@@ -115,11 +115,11 @@ public class SysAdminController {
     }
 
     @GetMapping("/admins")
-    public ResponseEntity<List<Admin>> getAllAdmins(@RequestBody Admin sysAdmin) {
-        if (adminService.findAdminAccesRole(sysAdmin).equals("systemAdministrator")) {
+    public ResponseEntity<List<Admin>> getAllAdmins() {
+//        if (adminService.findAdminAccesRole(sysAdmin).equals("systemAdministrator")) {
             List<Admin> allAdmin = adminService.findAllAdmin();
             return new ResponseEntity<>(allAdmin, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }

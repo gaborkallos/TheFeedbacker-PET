@@ -2,10 +2,7 @@ package com.gaborkallos.thefeedbacker.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -22,4 +19,6 @@ public class Admin {
     private String email;
     private String accessRole;
     private boolean systemAdmin;
+    @ManyToOne
+    private Shop shop;
 }
