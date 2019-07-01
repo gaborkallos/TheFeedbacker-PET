@@ -163,7 +163,7 @@ public class AdminService {
     public boolean addAdminToShop(Shop shop) {
         for (Shop currentShop : findAllShops()) {
             if (currentShop.getName().equals(shop.getName())) {
-                currentShop.addNewShopAdmin(shop.getAdmins().get(0));
+                currentShop.setAdmins(shop.getAdmins());
                 shopRepository.save(currentShop);
                 return true;
             }
