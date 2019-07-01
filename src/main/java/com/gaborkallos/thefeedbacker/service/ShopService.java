@@ -8,6 +8,7 @@ import com.gaborkallos.thefeedbacker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,20 +54,20 @@ public class ShopService {
 //                feedbacks.add(feedback);
 //            }
 //        }
-        if(admin.getAccessRole().equals("shopAdministrator") ||
-                admin.getAccessRole().equals("systemAdministrator")){
+        if (admin.getAccessRole().equals("shopAdministrator") ||
+                admin.getAccessRole().equals("systemAdministrator")) {
             List<Feedback> feedbacks = feedbackRepository.findFeedbackByShop(myShop);
             return feedbacks;
         }
         return null;
     }
 
-    public boolean isMyShop(Admin admin, Shop myShop){
-        for(Shop currentShop : shopRepository.findAll()){
-            if (currentShop.getName().equals(myShop.getName())){
+    public boolean isMyShop(Admin admin, Shop myShop) {
+        for (Shop currentShop : shopRepository.findAll()) {
+            if (currentShop.getName().equals(myShop.getName())) {
                 List<Admin> myAdminsmyShop = currentShop.getAdmins();
-                for (Admin currrentAdmin : myAdminsmyShop){
-                    if(currrentAdmin.getUsername().equals(admin.getUsername())){
+                for (Admin currrentAdmin : myAdminsmyShop) {
+                    if (currrentAdmin.getUsername().equals(admin.getUsername())) {
                         return true;
                     }
                 }
@@ -76,9 +77,20 @@ public class ShopService {
         return false;
     }
 
-    public List<Shop> findAllShop(){
+    public List<Shop> findShopByAdmin(Admin admin) {
+        List<Shop> result = new ArrayList<>();
+        for (Shop shop : shopRepository.findAll()) {
+            if (shop.getAdmins().contains(admin)) {
+                result.add(shop);
+            }
+        }
+        return result;
+    }
+
+    public List<Shop> findAllShop() {
         return shopRepository.findAll();
     }
+
     public void leaveFeedback(Feedback feedback) {
         feedbackRepository.save(feedback);
     }
