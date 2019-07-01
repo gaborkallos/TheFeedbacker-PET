@@ -1,5 +1,6 @@
 package com.gaborkallos.thefeedbacker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,5 +21,6 @@ public class Admin {
     private String accessRole;
     private boolean systemAdmin;
     @ManyToOne
+    @JsonIgnore
     private Shop shop;
 }

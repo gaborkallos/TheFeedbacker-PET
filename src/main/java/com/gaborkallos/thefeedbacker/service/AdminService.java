@@ -165,6 +165,7 @@ public class AdminService {
             if (currentShop.getName().equals(shop.getName())) {
                 for (Admin currentAdmin : findAllAdmin()) {
                     if (currentAdmin.getUsername().equals(admin.getUsername())) {
+                        currentAdmin.setShop(currentShop);
                         currentShop.addNewShopAdmin(currentAdmin);
                         shopRepository.save(currentShop);
                         return true;
