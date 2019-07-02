@@ -9,6 +9,7 @@ import com.gaborkallos.thefeedbacker.repository.CountryRepository;
 import com.gaborkallos.thefeedbacker.repository.ShopRepository;
 import com.gaborkallos.thefeedbacker.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ public class AdminService {
     private RandomGenerator randomGenerator;
     @Autowired
     private EmailService emailService;
-    private PasswordEncoder passwordEncoder;
     private AdminRepository adminRepository;
     private ShopRepository shopRepository;
     private CityService cityService;
@@ -46,9 +46,8 @@ public class AdminService {
 
 
     @Autowired
-    public void setPasswordEncoder() {
-        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+    private BCryptPasswordEncoder encoder;
+
 
     @Autowired
     public void setAdminRepository(AdminRepository adminRepository) {
@@ -58,7 +57,7 @@ public class AdminService {
     public void setAdministrators() {
         Admin admin1 = Admin.builder()
                 .username("Asdmann")
-                .password(passwordEncoder.encode("12345"))
+                .password(encoder.encode("12345"))
                 .email("kollorosa@gmail.com")
                 .accessRole("systemAdministrator")
                 .systemAdmin(true)
@@ -66,7 +65,7 @@ public class AdminService {
         adminRepository.save(admin1);
         Admin admin2 = Admin.builder()
                 .username("Kraz")
-                .password(passwordEncoder.encode("12345"))
+                .password(encoder.encode("12345"))
                 .email("gaborkallos@gmail.com")
                 .accessRole("systemAdministrator")
                 .systemAdmin(true)
@@ -78,7 +77,7 @@ public class AdminService {
         List<Admin> sysAdmins = findAll();
         for (Admin sysAdmin : sysAdmins) {
             if (sysAdmin.getUsername().equals(admin.getUsername())) {
-                if (passwordEncoder.matches(admin.getPassword(),
+                if (encoder.matches(admin.getPassword(),
                         sysAdmin.getPassword())) {
                     return true;
                 }
@@ -112,7 +111,7 @@ public class AdminService {
     }
 
     public String encryptPassword(String plainPassword) {
-        return passwordEncoder.encode(plainPassword);
+        return encoder.encode(plainPassword);
     }
 
     public List<Shop> findAllShops() {
@@ -140,7 +139,7 @@ public class AdminService {
             newAdmin.setAccessRole("shopAdministrator");
         }
         String password = (randomGenerator.passwordGenerator());
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = encoder.encode(password);
         newAdmin.setPassword(encodedPassword);
         adminRepository.save(newAdmin);
         emailService.sendRegistrationMessage(newAdmin, password);
