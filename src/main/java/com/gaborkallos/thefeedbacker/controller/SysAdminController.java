@@ -40,24 +40,7 @@ public class SysAdminController {
     public ResponseEntity<HttpStatus> loginPage() {
         return new ResponseEntity(adminService.findAllAdmin(), HttpStatus.OK);
     }
-//
-//    @PostMapping("/login")
-//    public ResponseEntity<Admin> login(@RequestBody Admin admin) {
-//        logger.info("Try to logging in");
-//        if (adminService.findAdmin(admin)) {
-//            logger.info("Login successful");
-//            String accesRole = adminService.findAdminAccesRole(admin);
-//            admin.setAccessRole(accesRole);
-//            if (admin.getAccessRole().equals("systemAdministrator")) {
-//                admin.setSystemAdmin(true);
-//            } else {
-//                admin.setSystemAdmin(false);
-//            }
-//            return new ResponseEntity<>(admin, HttpStatus.OK);
-//        }
-//        logger.warn("Login FAILED!");
-//        return new ResponseEntity<>((Admin) null, HttpStatus.UNAUTHORIZED);
-//    }
+
 
     @PostMapping("/systemadmin")
     public ResponseEntity<HttpStatus> addAdmin(@RequestBody Admin admin) {
