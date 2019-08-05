@@ -40,4 +40,11 @@ public class CityService {
         return null;
     }
 
+    public void initCities() {
+        if (findAllCities().size() == 0) {
+            addNewCity(new City(1L, "Budapest"));
+            addNewCity(new City(2L, "London"));
+            addNewCity(new City(3L, "New York"));
+        }
+    }
 }

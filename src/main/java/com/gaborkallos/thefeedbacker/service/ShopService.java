@@ -48,12 +48,6 @@ public class ShopService {
 
 
     public List<Feedback> myFeedbacks(Shop myShop, Admin admin) {
-//        List<Feedback> allFeedbacks = feedbackRepository.findAll();
-//        for(Feedback feedback : allFeedbacks){
-//            if (feedback.getShop().equals(myShop)){
-//                feedbacks.add(feedback);
-//            }
-//        }
         if (admin.getAccessRole().equals("shopAdministrator") ||
                 admin.getAccessRole().equals("systemAdministrator")) {
             List<Feedback> feedbacks = feedbackRepository.findFeedbackByShop(myShop);

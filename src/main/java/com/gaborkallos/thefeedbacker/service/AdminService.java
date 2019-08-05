@@ -55,33 +55,33 @@ public class AdminService {
     }
 
     public void setAdministrators() {
-        Admin admin1 = Admin.builder()
-                .username("Asdmann")
-                .password(encoder.encode("12345"))
-                .email("kollorosa@gmail.com")
-                .accessRole("systemAdministrator")
-                .systemAdmin(true)
-                .build();
-        adminRepository.save(admin1);
-        Admin admin2 = Admin.builder()
-                .username("Kraz")
-                .password(encoder.encode("12345"))
-                .email("gaborkallos@gmail.com")
-                .accessRole("systemAdministrator")
-                .systemAdmin(true)
-                .build();
-        adminRepository.save(admin2);
+        if (!isSysadminExist("Kraz")) {
+            Admin admin1 = Admin.builder()
+                    .username("Asdmann")
+                    .password(encoder.encode("12345"))
+                    .email("kollorosa@gmail.com")
+                    .accessRole("systemAdministrator")
+                    .systemAdmin(true)
+                    .build();
+            adminRepository.save(admin1);
+            Admin admin2 = Admin.builder()
+                    .username("Kraz")
+                    .password(encoder.encode("12345"))
+                    .email("gaborkallos@gmail.com")
+                    .accessRole("systemAdministrator")
+                    .systemAdmin(true)
+                    .build();
+            adminRepository.save(admin2);
+        }
     }
 
     public boolean findAdmin(Admin admin) {
         List<Admin> sysAdmins = findAll();
         for (Admin sysAdmin : sysAdmins) {
             if (sysAdmin.getUsername().equals(admin.getUsername())) {
-                if (encoder.matches(admin.getPassword(),
-                        sysAdmin.getPassword())) {
+                if (encoder.matches(admin.getPassword(), sysAdmin.getPassword())) {
                     return true;
                 }
-                return false;
             }
         }
         return false;
@@ -146,9 +146,18 @@ public class AdminService {
         return true;
     }
 
-    public boolean isAdminExist(Admin newAdmin) {
+    private boolean isAdminExist(Admin newAdmin) {
         for (Admin admin : findAllAdmin()) {
             if (admin.getEmail().equals(newAdmin.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSysadminExist(String username) {
+        for (Admin admin : findAllAdmin()) {
+            if (admin.getUsername().equals(username)) {
                 return true;
             }
         }
@@ -162,8 +171,9 @@ public class AdminService {
     public boolean addAdminToShop(Shop shop, Admin admin) {
         for (Shop currentShop : findAllShops()) {
             if (currentShop.equals(shop)) {
-                currentShop.getAdmins().add(admin);
-                shopRepository.save(currentShop);
+                List<Admin> admins = currentShop.getAdmins();
+                admins.add(admin);
+                currentShop.setAdmins(admins);
                 return true;
             }
         }

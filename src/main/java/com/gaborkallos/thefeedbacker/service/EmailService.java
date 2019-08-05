@@ -30,10 +30,11 @@ public class EmailService {
             message.setText("Dear " + admin.getUsername() + "! \n \n" +
                     "Welcome in our project X website. \n" +
                     "Your username is: " + admin.getUsername() + "\n"+
-                    "and your password: " + password + "\n" +
-                    "to login. \n \n" +
+                    "and your password: " + password + " . \n" +
+                    "To login visit http://localhost:4200/login \n \n" +
                     "Regards, \n" +
-                    "System Administrators");
+                    "System Administrators \n" +
+                    "The PROJECT X LTD");
 
             javaMailSender.send(message);
 

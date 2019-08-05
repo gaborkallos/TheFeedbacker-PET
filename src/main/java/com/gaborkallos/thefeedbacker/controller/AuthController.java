@@ -5,7 +5,6 @@ import com.gaborkallos.thefeedbacker.repository.AdminRepository;
 import com.gaborkallos.thefeedbacker.security.JwtTokenServices;
 import com.gaborkallos.thefeedbacker.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -41,7 +40,7 @@ public class AuthController {
         this.jwtTokenServices = jwtTokenServices;
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/")
     public ResponseEntity signin(@RequestBody Admin admin) {
         try {
             String username = admin.getUsername();

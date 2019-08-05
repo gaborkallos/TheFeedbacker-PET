@@ -8,14 +8,11 @@ import com.gaborkallos.thefeedbacker.service.AdminService;
 import com.gaborkallos.thefeedbacker.service.CityService;
 import com.gaborkallos.thefeedbacker.service.CountryService;
 import com.gaborkallos.thefeedbacker.service.ShopService;
-import io.jsonwebtoken.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,14 +79,8 @@ public class SysAdminController {
     }
 
     @GetMapping("/shops")
-    public ResponseEntity<List<Shop>> getAllShops(@RequestBody Admin admin) {
-        if (admin.isSystemAdmin()) {
-            return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
-        }
-        else if (!admin.isSystemAdmin()) {
-            return new ResponseEntity<>(shopService.findShopByAdmin(admin), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<List<Shop>> getAllShops() {
+        return new ResponseEntity<>(shopService.findAllShop(), HttpStatus.OK);
     }
 
     @PutMapping("/shops")
@@ -104,11 +95,8 @@ public class SysAdminController {
     }
 
     @GetMapping("/admins")
-    public ResponseEntity<List<Admin>> getAllAdmins(@RequestBody Admin sysAdmin) {
-        if (adminService.findAdminAccesRole(sysAdmin).equals("systemAdministrator")) {
-            List<Admin> allAdmin = adminService.findAllAdmin();
-            return new ResponseEntity<>(allAdmin, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    public ResponseEntity<List<Admin>> getAllAdmins() {
+        List<Admin> allAdmin = adminService.findAllAdmin();
+        return new ResponseEntity<>(allAdmin, HttpStatus.OK);
     }
 }

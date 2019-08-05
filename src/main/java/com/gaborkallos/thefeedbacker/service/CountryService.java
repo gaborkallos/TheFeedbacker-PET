@@ -39,4 +39,12 @@ public class CountryService {
         }
         return null;
     }
+
+    public void initCounties() {
+        if (findAllCountries().size() == 0) {
+            addNewCountry(new Country(1L, "Hungary"));
+            addNewCountry(new Country(2L, "United Kingdom"));
+            addNewCountry(new Country(3L, "United States"));
+        }
+    }
 }

@@ -30,12 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll() // allowed by anyone
-                .antMatchers(HttpMethod.POST, "/systemadmin").hasRole("systemAdministrator") // allowed only when signed in
-                .antMatchers(HttpMethod.GET, "/systemadmin").hasRole("systemAdministrator") // allowed only when signed in
-                .antMatchers(HttpMethod.GET, "/shops").hasRole("systemAdministrator") // allowed only when signed in
-                .antMatchers(HttpMethod.GET, "/admins").hasRole("systemAdministrator") // allowed only when signed in
-                .antMatchers(HttpMethod.DELETE, "/**").hasRole("systemAdministrator") // allowed if signed in with ADMIN role
-                .antMatchers(HttpMethod.PUT, "/**").hasRole("systemAdministrator") // allowed if signed in with ADMIN role
+                .antMatchers(HttpMethod.POST, "/systemadmin").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.GET, "/systemadmin").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.GET, "/shops").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.PUT, "/shops").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.GET, "/admins").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.DELETE, "/**").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
+                .antMatchers(HttpMethod.PUT, "/**").hasRole("systemAdministrator") // allowed if signed in with SYSADMIN role
                 .antMatchers(HttpMethod.POST, "/shop/**").authenticated()// allowed only when signed in
                 //.anyRequest().denyAll(); // anything else is denied
                 .and()

@@ -50,18 +50,8 @@ public class TheFeedbackerApplication {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-
-            Country country1 = new Country(1L, "Hungary");
-            Country country2 = new Country(2L, "United Kingdom");
-            Country country3 = new Country(3L, "United States");
-
-            cityService.addNewCity(new City(1L, "Budapest"));
-            cityService.addNewCity(new City(2L, "London"));
-            cityService.addNewCity(new City(3L, "New York"));
-
-            countryService.addNewCountry(country1);
-            countryService.addNewCountry(country2);
-            countryService.addNewCountry(country3);
+            countryService.initCounties();
+            cityService.initCities();
         };
     }
 
