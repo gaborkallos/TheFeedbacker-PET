@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 public class SysAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
@@ -58,24 +59,16 @@ public class SysAdminController {
         return new ResponseEntity<>(countryService.findAllCountries(), HttpStatus.OK);
     }
 
-
-    //TODO: https://codecool.gitlab.io/codecool-curriculum/bud-advanced-java-new/#/.
-    // ./pages/java/spring/spring-security-tutorial !!!
-
     @PostMapping("/shops")
-    //TODO:    @Secured({"ROLE_systemAdministrator"})
     public ResponseEntity<Boolean> addNewShop(@RequestBody Shop newShop) {
         logger.info("Add new shop");
-        if (cityService.addNewCity(newShop.getCity())) {
-            logger.info(newShop.getCity().getName() + " is added to database!");
-        }
-        if (countryService.addNewCountry(newShop.getCountry())) {
-            logger.info(newShop.getCountry().getName() + " is added to database!");
-        }
+        cityService.addNewCity(newShop.getCity());
+        countryService.addNewCountry(newShop.getCountry());
         if (adminService.addNewShop(newShop, newShop.getCity(), newShop.getCountry())) {
             logger.info(newShop.getName() + " is added to database!");
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
     }
 
     @GetMapping("/shops")
@@ -84,9 +77,10 @@ public class SysAdminController {
     }
 
     @PutMapping("/shops")
-    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop, Admin admin) {
+    public ResponseEntity<Shop> addAdminToShop(@RequestBody Shop shop) {
         logger.info("Try to add new Admin to the Shop");
-        if (adminService.addAdminToShop(shop, admin)) {
+        List<Admin> admins = shop.getAdmins();
+        if (adminService.addAdminToShop(shop, admins)) {
             logger.info("Success! New shop is added");
             return new ResponseEntity<>(HttpStatus.OK);
         }

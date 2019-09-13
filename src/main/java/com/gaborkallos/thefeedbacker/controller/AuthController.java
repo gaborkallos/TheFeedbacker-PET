@@ -50,13 +50,13 @@ public class AuthController {
                     .stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-
             String token = jwtTokenServices.createToken(username, roles);
 
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
             model.put("roles", roles);
             model.put("token", token);
+            System.out.println(ResponseEntity.ok(model));
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");

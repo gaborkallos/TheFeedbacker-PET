@@ -17,14 +17,12 @@ public class CountryService {
         this.countryRepository = countryRepository;
     }
 
-    public boolean addNewCountry(Country newCountry) {
+    public void addNewCountry(Country newCountry) {
         String name = newCountry.getName();
         newCountry.setName(name.toUpperCase());
-        if (findAllCountries().contains(newCountry)) {
-            return false;
+        if (!isCountryExist(newCountry)) {
+            countryRepository.save(newCountry);
         }
-        countryRepository.save(newCountry);
-        return true;
     }
 
     public List<Country> findAllCountries() {
@@ -38,6 +36,15 @@ public class CountryService {
             }
         }
         return null;
+    }
+
+    private boolean isCountryExist(Country newCountry){
+        for (Country country : countryRepository.findAll()) {
+            if (country.getName().toUpperCase().equals(newCountry.getName().toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void initCounties() {

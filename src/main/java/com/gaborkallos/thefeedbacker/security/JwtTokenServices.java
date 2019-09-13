@@ -82,4 +82,8 @@ public class JwtTokenServices {
         return new UsernamePasswordAuthenticationToken(username, "", authorities);
     }
 
+    public String getUserName(String token) {
+        Claims body = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7,token.length())).getBody();
+        return body.getSubject();
+    }
 }

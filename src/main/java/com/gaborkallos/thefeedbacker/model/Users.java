@@ -1,5 +1,6 @@
 package com.gaborkallos.thefeedbacker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Users {
     private boolean canGetPromotion;
 
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private List<Feedback> feedbackList;
 }
 

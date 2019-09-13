@@ -25,7 +25,7 @@ public class AdminService {
     @Autowired
     private EmailService emailService;
     private AdminRepository adminRepository;
-    private ShopRepository shopRepository;
+    private ShopService shopService;
     private CityService cityService;
     private CountryService countryService;
 
@@ -40,8 +40,8 @@ public class AdminService {
     }
 
     @Autowired
-    public void setShopRepository(ShopRepository shopRepository) {
-        this.shopRepository = shopRepository;
+    public void setShopService(ShopService shopService) {
+        this.shopService = shopService;
     }
 
 
@@ -115,17 +115,17 @@ public class AdminService {
     }
 
     public List<Shop> findAllShops() {
-        return shopRepository.findAll();
+        return shopService.findAll();
     }
 
     public boolean addNewShop(Shop newShop, City newCity, Country newCountry) {
-        if (findAllShops().contains(newShop)) {
-            return false;
+        if (!shopService.isShopExist(newShop)) {
+            newShop.setCity(cityService.findCityByName(newCity));
+            newShop.setCountry(countryService.findCountryByName(newCountry));
+            shopService.save(newShop);
+            return true;
         }
-        newShop.setCity(cityService.findCityByName(newCity));
-        newShop.setCountry(countryService.findCountryByName(newCountry));
-        shopRepository.save(newShop);
-        return true;
+        return false;
     }
 
     public boolean addNewShopAdmin(Admin newAdmin) {
@@ -148,7 +148,7 @@ public class AdminService {
 
     private boolean isAdminExist(Admin newAdmin) {
         for (Admin admin : findAllAdmin()) {
-            if (admin.getEmail().equals(newAdmin.getEmail())) {
+            if (admin.getEmail().equals(newAdmin.getEmail()) || admin.getUsername().equals(newAdmin.getUsername())) {
                 return true;
             }
         }
@@ -168,12 +168,11 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public boolean addAdminToShop(Shop shop, Admin admin) {
+    public boolean addAdminToShop(Shop shop, List<Admin> admins) {
         for (Shop currentShop : findAllShops()) {
-            if (currentShop.equals(shop)) {
-                List<Admin> admins = currentShop.getAdmins();
-                admins.add(admin);
+            if (currentShop.getName().equals(shop.getName())) {
                 currentShop.setAdmins(admins);
+                shopService.save(currentShop);
                 return true;
             }
         }

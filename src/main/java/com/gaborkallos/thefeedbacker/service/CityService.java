@@ -17,14 +17,12 @@ public class CityService {
         this.cityRepository = cityRepository;
     }
 
-    public boolean addNewCity(City newCity) {
+    public void addNewCity(City newCity) {
         String name = newCity.getName();
         newCity.setName(name.toUpperCase());
-        if (findAllCities().contains(newCity)) {
-            return false;
+        if (!isCityExist(newCity)) {
+            cityRepository.save(newCity);
         }
-        cityRepository.save(newCity);
-        return true;
     }
 
     public List<City> findAllCities() {
@@ -38,6 +36,15 @@ public class CityService {
             }
         }
         return null;
+    }
+
+    private boolean isCityExist(City newCity){
+        for (City city : cityRepository.findAll()) {
+            if (city.getName().toUpperCase().equals(newCity.getName().toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void initCities() {

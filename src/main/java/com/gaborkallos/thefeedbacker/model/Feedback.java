@@ -32,7 +32,6 @@ public class Feedback {
     private Shop shop;
 
     @ManyToOne
-    @JsonIgnore
     private Users user;
 
 }

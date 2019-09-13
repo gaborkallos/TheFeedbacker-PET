@@ -74,11 +74,32 @@ public class ShopService {
     public List<Shop> findShopByAdmin(Admin admin) {
         List<Shop> result = new ArrayList<>();
         for (Shop shop : shopRepository.findAll()) {
+            System.out.println(shop);
             if (shop.getAdmins().contains(admin)) {
+                System.out.println("------ Your Shops ------");
+                System.out.println("- " + shop.toString());
                 result.add(shop);
             }
         }
         return result;
+    }
+
+    public Shop findShopByName(Shop newShop) {
+        for (Shop shop : shopRepository.findAll()) {
+            if (shop.getName().toUpperCase().equals(newShop.getName().toUpperCase())) {
+                return newShop;
+            }
+        }
+        return null;
+    }
+
+    public boolean isShopExist(Shop newShop){
+        for (Shop shop : shopRepository.findAll()) {
+            if (shop.getName().toUpperCase().equals(newShop.getName().toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Shop> findAllShop() {
@@ -91,6 +112,14 @@ public class ShopService {
 
     public void saveUser(Users user) {
         usersRepository.save(user);
+    }
+
+    public List<Shop> findAll() {
+        return shopRepository.findAll();
+    }
+
+    public void save(Shop newShop) {
+        shopRepository.save(newShop);
     }
 }
 
